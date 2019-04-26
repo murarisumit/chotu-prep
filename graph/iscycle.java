@@ -13,14 +13,15 @@ public class iscycle
             this.visited[i] = -1;
         }
         int i = 0 ;
+        this.count = 0;
         while(this.visited[i] == -1)
         {
-           this.count = checkCycle(G,i,n);
+            this.checkCycle(G,i,n);
            i = nonvisited(n);
         }
         System.out.println(this.count);
         if(this.count > 0)
-        {
+        { 
             return true;
         }
          return false;
@@ -38,16 +39,26 @@ public class iscycle
         return 0;
     }
 
-    private int checkCycle(int[][] G, int i, int n) 
+    public void checkCycle(int[][] G, int i, int n) 
     {
+      
         this.visited[i] = 1;
         for(int j = 0; j < n; j++)
         {
             if(G[i][j] == 1)
             {
-                if(G[j][i] == 1)
+                if( i == j)
                 {
                     this.count = this.count + 1;
+                }
+                else if(G[j][i] == 1 )
+                {
+                    if(this.visited[j] == -1)
+                    {
+                        this.count = this.count + 1;
+                    }
+                   //if(this.visited[i] == -1)
+                   //this.count = checkCycle(G, j, n);
                 }
                 else if (this.visited[j] == 1)
                 {
@@ -55,17 +66,16 @@ public class iscycle
                 }
                 else      
                 {
-                    this.count = checkCycle(G, j, n);
+                    checkCycle(G, j, n);
                 }
             }
         }
-        return count;
     }
 
     public static void main(String[] args) 
     {
         iscycle c = new iscycle();
-        int[][] G = new int[][]{{0,1,0,0,0},{0,0,1,0,0},{0,0,0,1,1},{1,0,0,0,0},{0,0,1,0,0}};
+        int[][] G = new int[][]{{1,1,0,0,0},{0,0,1,0,0},{0,0,0,1,1},{1,0,0,0,0},{0,0,1,0,0}};
         
         if(c.iscycleG(G, G.length))
         {
